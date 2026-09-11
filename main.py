@@ -438,9 +438,15 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID")
-python-dotenv>=1.0.0
 aiohttp>=3.9.0
 .env
 __pycache__/
 *.pycif __name__ == "__main__":
+    asyncio.run(main())
+    async def main():
+    await start_dummy_server()
+    logging.info("Bot polling rejimida ishga tushmoqda...")
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
     asyncio.run(main())
