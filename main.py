@@ -438,9 +438,9 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID")
-aiogram>=3.4.0
 python-dotenv>=1.0.0
 aiohttp>=3.9.0
 .env
 __pycache__/
-*.pyc
+*.pycif __name__ == "__main__":
+    asyncio.run(main())
