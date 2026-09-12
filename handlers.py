@@ -14,7 +14,7 @@ WARNING_TEXT = "(Note: Please do not use AI to generate your answers)."
 async def start_handler(message: Message, state: FSMContext):
     await state.clear()
     welcome_text = (
-        "Welcome to the MBA Tracking application bot!\n"
+        "Welcome to the MBA Trucking application bot!\n"
         "Let's start with your personal information.\n\n"
         "Please enter your Full Name (Ism va Familiya):"
     )
