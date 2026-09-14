@@ -5,11 +5,7 @@ class ApplicationForm(StatesGroup):
     phone_number = State()
     english_level = State()
     region = State()
-    q1 = State()
-    q2 = State()
-    q3 = State()
-    q4 = State()
-    q5 = State()
+    answering_questions = State()
 
 class AdminReply(StatesGroup):
     waiting_for_reply = State()
