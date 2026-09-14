@@ -161,11 +161,11 @@ if config.GROUP_CHAT_ID:
                 reply_markup=reply_markup
             )
             save_lead(sent_msg.message_id, message.from_user.id)
-             except Exception as e:
+        except Exception as e:
             print(f"Guruhga yuborishda xatolik: {e}")
-             await message.answer("Thank you for completing the application! Our team will review your submission and contact you soon.")
-             await state.clear()
 
+    await message.answer("Thank you for completing the application! Our team will review your submission and contact you soon.")
+    await state.clear()
 @router.callback_query(F.data.startswith("reply_"))
 async def process_reply_button(callback: CallbackQuery, state: FSMContext):
     user_id = callback.data.split("_")[1]
