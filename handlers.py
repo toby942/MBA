@@ -149,40 +149,22 @@ async def process_pain_answers(message: Message, state: FSMContext):
         
         for i in range(3):
             admin_text += f"\n<b>Q{i+1}:</b> {questions[i]}\n<b>A{i+1}:</b> {answers[i]}\n"
-            
-        if config.ADMIN_CHAT_ID:
-            try:
-                reply_markup = InlineKeyboardMarkup(inline_keyboard=[
-                    [InlineKeyboardButton(text="Reply to Applicant", callback_data=f"reply_{message.from_user.id}")]
-                ])
-                sent_msg = await message.bot.send_message(
-                    chat_id=config.ADMIN_CHAT_ID,
-                    text=admin_text,
-                    parse_mode="HTML",
-                    reply_markup=reply_markup
-                )
-                # Bazaga guruh xabari va user_id ni saqlaymiz (oldingi database.py dagi funksiya)
-                save_lead(sent_msg.message_id, message.from_user.id)
-            except Exception as e:
-                print(f"Failed to send application to admin: {e}")
-                
-        await message.answer("Thank you for completing the application! Our team will review your submission and contact you soon.")
-        await state.clear()
-    if config.ADMIN_CHAT_ID:
+if config.GROUP_CHAT_ID:
         try:
             reply_markup = InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="💬 Reply to Applicant", callback_data=f"reply_{user_id}")]
+                [InlineKeyboardButton(text="💬 Reply to Applicant", callback_data=f"reply_{message.from_user.id}")]
             ])
-            await bot.send_message(
-                chat_id=config.ADMIN_CHAT_ID,
+            sent_msg = await message.bot.send_message(
+                chat_id=config.GROUP_CHAT_ID,
                 text=admin_text,
                 parse_mode="HTML",
                 reply_markup=reply_markup
             )
-        except Exception as e:
-            print(f"Failed to send application to admin: {e}")
-            
-    await state.clear()
+            save_lead(sent_msg.message_id, message.from_user.id)
+             except Exception as e:
+            print(f"Guruhga yuborishda xatolik: {e}")
+             await message.answer("Thank you for completing the application! Our team will review your submission and contact you soon.")
+             await state.clear()
 
 @router.callback_query(F.data.startswith("reply_"))
 async def process_reply_button(callback: CallbackQuery, state: FSMContext):
@@ -231,11 +213,3 @@ async def manager_reply_handler(message: Message):
             except Exception as e:
                 await message.reply(f"❌ Xatolik: {e}")
                 # Guruhga yuboriladigan xabar
-lead_text = (
-            f"🚨 **Yangi Lid (Ariza)!**\n\n"
-            f"👤 **Foydalanuvchi:** @{message.from_user.username} ({message.from_user.full_name})\n"
-            f"🆔 **User ID:** `{message.from_user.id}`\n\n"
-            f"📝 Foydalanuvchi barcha savollarga javob berdi."
-        )
-        sent_msg = await message.bot.send_message(GROUP_CHAT_ID, lead_text, parse_mode="Markdown")
-        save_lead(sent_msg.message_id, message.from_user.id)
