@@ -45,14 +45,49 @@ async def start_handler(message: Message, state: FSMContext):
     # Store them in FSM context
     await state.update_data(questions=selected_questions)
     
-    welcome_text = (
-        "Welcome! Let's start your application.\n"
-        "Please enter your Region/City to begin:"
+    await message.answer(
+        "Welcome! Let's start your application.\nPlease enter your full name:",
+        reply_markup=ReplyKeyboardRemove()
     )
-    await message.answer(welcome_text, reply_markup=ReplyKeyboardRemove())
+    await state.set_state(LeadForm.full_name)
+
+@router.message(LeadForm.full_name)
+async def process_full_name(message: Message, state: FSMContext):
+    if not message.text:
+        await message.answer("Please enter a valid full name.")
+        return
+
+    await state.update_data(full_name=message.text)
+    await message.answer("Please enter your phone number:")
+    await state.set_state(LeadForm.phone_number)
+
+
+@router.message(LeadForm.phone_number)
+async def process_phone_number(message: Message, state: FSMContext):
+    if not message.text:
+        await message.answer("Please enter a valid phone number.")
+        return
+
+    await state.update_data(phone_number=message.text)
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Beginner", callback_data="level_Beginner")],
+        [InlineKeyboardButton(text="Intermediate", callback_data="level_Intermediate")],
+        [InlineKeyboardButton(text="Advanced", callback_data="level_Advanced")],
+    ])
+    await message.answer("What is your English level?", reply_markup=keyboard)
+    await state.set_state(LeadForm.english_level)
+
+
+@router.callback_query(F.data.startswith("level_"), LeadForm.english_level)
+async def process_english_level(callback: CallbackQuery, state: FSMContext):
+    level = callback.data.split("_")[1]
+    await state.update_data(english_level=level)
+
+    await callback.message.edit_text(f"English level: {level} ✅")
+    await callback.message.answer("Please enter your Region/City:")
     await state.set_state(LeadForm.region)
-
-
+    await callback.answer()
 @router.message(LeadForm.region)
 async def process_region(message: Message, state: FSMContext):
     if not message.text:
@@ -112,7 +147,9 @@ async def process_q3(message: Message, state: FSMContext, bot: Bot):
     
     # Build Admin Summary
     user = message.from_user
-    full_name = user.full_name
+    full_name = data.get("full_name", user.full_name)
+    phone_number = data.get("phone_number", "N/A")
+    english_level = data.get("english_level", "N/A")
     username = f"@{user.username}" if user.username else "No Username"
     user_id = user.id
     
@@ -126,6 +163,8 @@ async def process_q3(message: Message, state: FSMContext, bot: Bot):
         f"🆕 <b>New Lead Application</b>\n\n"
         f"👤 <b>Applicant Info:</b>\n"
         f"Name: {full_name}\n"
+        f"Phone: {phone_number}\n"
+        f"English Level: {english_level}\n"
         f"Username: {username}\n"
         f"Telegram ID: <code>{user_id}</code>\n"
         f"Region: {region}\n\n"
