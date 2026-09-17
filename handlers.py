@@ -12,26 +12,26 @@ router = Router()
 # yangilash
 # Pool of 20 randomized questions for the lead form
 QUESTIONS_POOL = [
-    "1. What is your primary goal for joining this program?",
-    "2. How many years of professional experience do you have?",
-    "3. Describe a time you demonstrated leadership.",
-    "4. What are your expectations from this MBA?",
-    "5. How do you handle conflict in a team?",
-    "6. What is your greatest professional achievement?",
-    "7. Where do you see your career in 5 years?",
-    "8. Why did you choose our program specifically?",
-    "9. How do you plan to balance work and studies?",
-    "10. What unique skills do you bring to a cohort?",
-    "11. Describe a challenge you overcame at work.",
-    "12. What industry are you most interested in?",
-    "13. How do you define successful teamwork?",
-    "14. Discuss a recent business trend that interests you.",
-    "15. Who is a leader you admire and why?",
-    "16. What is your approach to problem-solving?",
-    "17. How do you stay updated with industry news?",
-    "18. What motivates you to perform your best?",
-    "19. Describe a time you had to pivot your strategy.",
-    "20. What is your long-term entrepreneurial vision?"
+    "What is your primary goal for joining this program?",
+    "How many years of professional experience do you have?",
+    "Describe a time you demonstrated leadership.",
+    "What are your expectations from this MBA?",
+    "How do you handle conflict in a team?",
+    "What is your greatest professional achievement?",
+    "Where do you see your career in 5 years?",
+    "Why did you choose our program specifically?",
+    "How do you plan to balance work and studies?",
+    "What unique skills do you bring to a cohort?",
+    "Describe a challenge you overcame at work.",
+    "What industry are you most interested in?",
+    "How do you define successful teamwork?",
+    "Discuss a recent business trend that interests you.",
+    "Who is a leader you admire and why?",
+    "What is your approach to problem-solving?",
+    "How do you stay updated with industry news?",
+    "What motivates you to perform your best?",
+    "Describe a time you had to pivot your strategy.",
+    "What is your long-term entrepreneurial vision?"
 ]
 
 

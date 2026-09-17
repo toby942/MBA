@@ -1,6 +1,9 @@
 from aiogram.fsm.state import State, StatesGroup
 
 class LeadForm(StatesGroup):
+    full_name = State()
+    phone_number = State()
+    english_level = State()
     region = State()
     q1 = State()
     q2 = State()
