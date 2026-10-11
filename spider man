@@ -1,0 +1,33 @@
+import cv2
+import turtle
+
+IMAGE = "spiderman.png"
+img = cv2.imread(IMAGE)
+
+if img is None:
+    print("Image not found!")
+    exit()
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+_, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY_INV)
+contours, _ = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+
+h, w = gray.shape
+screen = turtle.Screen()
+screen.setup(w + 50, h + 50)
+t = turtle.Turtle()
+t.speed(0)
+t.hideturtle()
+turtle.tracer(0)
+
+for cnt in contours:
+    t.penup()
+    for i, p in enumerate(cnt):
+        x, y = p[0]
+        t.goto(x - w / 2, h / 2 - y)  # koordinatalarni markazga moslash
+        if i == 0:
+            t.pendown()
+    t.penup()
+
+turtle.update()
+turtle.done()
